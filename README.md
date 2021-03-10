@@ -1,21 +1,24 @@
 # ReportGenerator
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `report_generator` to your list of dependencies in `mix.exs`:
+Processes time-tracking data in CSV format in Elixir.
 
 ```elixir
-def deps do
-  [
-    {:report_generator, "~> 0.1.0"}
-  ]
-end
+❯ iex -S mix
+Erlang/OTP 23 [erts-11.1.7] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [hipe]
+
+Interactive Elixir (1.11.2) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> "data/test_small.csv" |> ReportGenerator.call
+%{
+  all_hours: %{daniele: 12, giuliano: 3, mayk: 5},
+  hours_per_month: %{
+    daniele: %{abril: 7, dezembro: 5},
+    giuliano: %{fevereiro: 3},
+    mayk: %{dezembro: 5}
+  },
+  hours_per_year: %{
+    daniele: %{2016 => 5, 2018 => 7},
+    giuliano: %{2017 => 3},
+    mayk: %{2017 => 1, 2019 => 4}
+  }
+}
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/report_generator](https://hexdocs.pm/report_generator).
-
