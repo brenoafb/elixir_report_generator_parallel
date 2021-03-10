@@ -14,6 +14,14 @@ defmodule ReportGenerator do
     |> build_map_from_results(functions)
   end
 
+  def call(filename, :parallel) do
+    functions = [:all_hours, :hours_per_month, :hours_per_year]
+
+    filename
+    |> Parser.call()
+    |> build_map_from_results(functions, :parallel)
+  end
+
   def all_hours(entries) do
     update_map = fn
       %Entry{name: name, hours: hours}, map ->
@@ -76,5 +84,11 @@ defmodule ReportGenerator do
       result = apply(__MODULE__, f, [entries])
       map |> Map.put(f, result)
     end)
+  end
+
+  defp build_map_from_results(entries, functions, :parallel) do
+    functions
+    |> Task.async_stream(fn f -> {f, apply(__MODULE__, f, [entries])} end)
+    |> Enum.reduce(%{}, fn {:ok, {f, result}}, map -> map |> Map.put(f, result) end)
   end
 end

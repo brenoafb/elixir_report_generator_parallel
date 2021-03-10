@@ -30,6 +30,23 @@ defmodule ReportGeneratorTest do
     end
   end
 
+  describe "call/2" do
+    test "generates a report in parallel given a valid csv file" do
+      filename = "data/test_small.csv"
+
+      result =
+        filename
+        |> ReportGenerator.call(:parallel)
+
+      expected =
+        filename
+        # non-parallel version
+        |> ReportGenerator.call()
+
+      assert result == expected
+    end
+  end
+
   describe "get_entries_per_worker/1" do
     test "Extracts the entries corresponding to each worker" do
       filename = "data/test_small.csv"
