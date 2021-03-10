@@ -1,23 +1,10 @@
 defmodule ReportGenerator do
   @moduledoc """
-  Documentation for `ReportGenerator`.
+  Generates time-tracking reports.
   """
 
   alias ReportGenerator.Entry
   alias ReportGenerator.Parser
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ReportGenerator.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 
   def call(filename) do
     functions = [:all_hours, :hours_per_month, :hours_per_year]
@@ -56,7 +43,7 @@ defmodule ReportGenerator do
     |> assoc_list_to_map()
   end
 
-  defp get_entries_per_worker(entries) do
+  def get_entries_per_worker(entries) do
     update_map = fn
       %Entry{name: name, hours: hours, day: day, month: month, year: year}, map ->
         entry = %{hours: hours, day: day, month: month, year: year}
